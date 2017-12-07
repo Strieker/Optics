@@ -1,0 +1,60 @@
+body {
+  text-align: center;
+}
+
+.background {
+  height: 1250;
+  width: 1500;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(
+    124deg,
+    #ffffff,
+    #bababa,
+    #8e8e8e,
+    #5a5959,
+    #3d3c3c,
+    #121212,
+    #000000
+  );
+  background-size: 1800% 1800%;
+  animation: rainbow 18s ease infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% 82%;
+  }
+  50% {
+    background-position: 100% 19%;
+  }
+  100% {
+    background-position: 0% 82%;
+  }
+}
+
+canvas {
+  margin-top: 1%;
+}
+
+progress {
+  width: 90%;
+}
+
+#title {
+  font: 600% "Libre Barcode 39 Extended Text", cursive;
+  color: white;
+  margin-bottom: 1%;
+}
+
+#how_to_play {
+  font: 150% "Monoton", cursive;
+  padding-bottom: 4%;
+}
+
+#current_score,
+#high_score {
+  font: 400% "Libre Barcode 39 Extended Text", cursive;
+}
