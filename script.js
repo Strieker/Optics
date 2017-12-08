@@ -5,21 +5,17 @@ const progressBar = document.querySelector("progress");
 const gameOverInnerHTML = "Game Over";
 const stripeWidth = 30;
 
+function randomCoord() {
+  let i = 20;
+  return i * Math.floor(Math.random() * 56);
+}
+
 function distanceBetween(c1, c2) {
   return Math.hypot(c1.x - c2.x, c1.y - c2.y);
 }
 
 function circlesCollided(c1, c2) {
   return distanceBetween(c1, c2) < c1.radius + c2.radius;
-}
-
-function rectanglesOverlapped(r1, r2) {
-  return (
-    r1.x + r1.width / 2 > r2.x &&
-    r2.x + r2.width / 2 > r1.x &&
-    r1.y + r1.height > r2.y &&
-    r2.y + r2.height > r1.y
-  );
 }
 
 function boundedBySquare(c) {
@@ -31,22 +27,29 @@ function boundedBySquare(c) {
   };
 }
 
-function randomCoord() {
-  let i = 20;
-  return i * Math.floor(Math.random() * 56);
+function rectanglesOverlapped(r1, r2) {
+  return (
+    r1.x + r1.width / 2 > r2.x &&
+    r2.x + r2.width / 2 > r1.x &&
+    r1.y + r1.height > r2.y &&
+    r2.y + r2.height > r1.y
+  );
 }
 
+function pursue(leader, follower, speed) {
+  follower.x += (leader.x - follower.x) * speed;
+  follower.y += (leader.y - follower.y) * speed;
+}
+
+canvas.addEventListener("click", restartGame);
 function restartGame() {
   if (document.getElementById("title").innerHTML === gameOverInnerHTML) {
     location.reload();
   }
 }
 
-canvas.addEventListener("click", restartGame);
-
 let mouse = { x: 0, y: 0 };
 document.body.addEventListener("mousemove", updateMouse);
-
 function updateMouse(event) {
   const { left, top, right, bottom } = canvas.getBoundingClientRect();
   if (event.clientX >= left && event.clientX <= right) {
@@ -58,7 +61,6 @@ function updateMouse(event) {
 }
 
 document.body.addEventListener("keydown", updateColor, false);
-
 function updateColor(e) {
   let space = false;
   if (e.keyCode !== 32) {
@@ -104,14 +106,9 @@ let enemies = [
   new Sprite(200, 100, 10, "cyan", 0.0023)
 ];
 
-function pursue(leader, follower, speed) {
-  follower.x += (leader.x - follower.x) * speed;
-  follower.y += (leader.y - follower.y) * speed;
-}
-
 class Obstacle {
   constructor(width, height) {
-    Object.assign(this, {width, height });
+    Object.assign(this, { width, height });
     this.dy = 10;
     this.timer = 0;
     this.color = ["cyan", "pink", "yellow"][Math.floor(Math.random() * 3)];
@@ -136,10 +133,6 @@ let obstacles = [
   new Obstacle(10, 20)
 ];
 
-function playerCollidedObstacle(player, obstacle) {
-  return rectanglesOverlapped(boundedBySquare(player), obstacle);
-}
-
 function changeObstaclePosition(obstacle) {
   obstacle.y += obstacle.dy;
   if (obstacle.y <= 0) {
@@ -154,6 +147,9 @@ function changeObstaclePosition(obstacle) {
   }
 }
 
+function playerCollidedObstacle(player, obstacle) {
+  return rectanglesOverlapped(boundedBySquare(player), obstacle);
+}
 
 function updateScene() {
   pursue(mouse, player, player.speed);
