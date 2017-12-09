@@ -1,3 +1,5 @@
+// Thanks, Kevin Metelus, Eddie Azinge, and all the other TA's in the keck lab for all the help! Y'all are amazing!
+
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
