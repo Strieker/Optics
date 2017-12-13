@@ -6,10 +6,10 @@ const ctx = canvas.getContext("2d");
 const progressBar = document.querySelector("progress");
 const gameOverInnerHTML = "Game Over";
 const stripeWidth = 30;
+const spaceKey = 32;
 
 function randomCoord() {
-  let i = 20;
-  return i * Math.floor(Math.random() * 56);
+  return  Math.floor(Math.random() * canvas.width);
 }
 
 function distanceBetween(c1, c2) {
@@ -65,10 +65,9 @@ function updateMouse(event) {
 document.body.addEventListener("keydown", updateColor, false);
 function updateColor(e) {
   let space = false;
-  if (e.keyCode !== 32) {
+  if (e.keyCode !== spaceKey) {
     space = false;
-  }
-  if (e.keyCode === 32) {
+  } else {
     space = true;
 
     function changeColor(objectArray) {
